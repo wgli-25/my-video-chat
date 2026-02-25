@@ -19,7 +19,7 @@
 <body>
 
 <div class="container">
-    <h2>📡 WebRTC 视频通话 (公网测试版)</h2>
+    <h2>📡 WebRTC 视频通话 (私密联系)</h2>
 
     <div class="controls">
         <p>你的专属 ID: <span id="my-id-display">正在获取...</span></p>
@@ -46,12 +46,13 @@
 
     let localStream;
 
-    // 加入了 Google 的免费 STUN 服务器，帮助在广域网中获取公网 IP 进行穿透
+    // 替换原本的 Peer 初始化代码
     const peer = new Peer({
         config: {
             'iceServers': [
-                { url: 'stun:stun.l.google.com:19302' },
-                { url: 'stun:stun1.l.google.com:19302' }
+                { url: 'stun:stun.qq.com:3478' },           // 腾讯 STUN
+                { url: 'stun:stun.miwifi.com:3478' },       // 小米 STUN
+                { url: 'stun:global.stun.twilio.com:3478' } // Twilio 全球公共 STUN
             ]
         }
     });
@@ -90,3 +91,4 @@
 
 </body>
 </html>
+
