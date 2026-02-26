@@ -46,13 +46,30 @@
 
     let localStream;
 
-    // 替换原本的 Peer 初始化代码
+    // 终极网络穿透配置：包含 STUN（找路）和 TURN（强制中转）
     const peer = new Peer({
         config: {
             'iceServers': [
-                { url: 'stun:stun.qq.com:3478' },           // 腾讯 STUN
-                { url: 'stun:stun.miwifi.com:3478' },       // 小米 STUN
-                { url: 'stun:global.stun.twilio.com:3478' } // Twilio 全球公共 STUN
+                // 1. 国内 STUN 服务器（优先尝试 P2P 直连，速度最快）
+                { urls: 'stun:stun.qq.com:3478' },
+                { urls: 'stun:stun.miwifi.com:3478' },
+                
+                // 2. 免费公共 TURN 服务器（直连失败时的终极保底方案）
+                {
+                    urls: 'turn:openrelay.metered.ca:80',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                },
+                {
+                    urls: 'turn:openrelay.metered.ca:443',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                },
+                {
+                    urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                }
             ]
         }
     });
@@ -91,4 +108,5 @@
 
 </body>
 </html>
+
 
